@@ -1,4 +1,4 @@
-import research_male from "../assets/researchgirl.gif";
+import research_male from "../assets/research_female.png";
 
 export default function Hero() {
   return (
