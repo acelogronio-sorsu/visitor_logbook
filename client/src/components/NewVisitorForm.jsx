@@ -19,7 +19,7 @@ export default function NewVisitorForm({
   const purposeOptions = [
     " -- Select Purpose --",
     "Submit Research Document/s",
-    "Claiming of Document",
+    "Claiming of Documents",
     "Request for Honorarium",
     "Request for Incentives",
     "Consultation",
@@ -36,7 +36,7 @@ export default function NewVisitorForm({
 
   //
   const incentiveOptions = [
-    "-- Select Incentive --", "Publication", "Presentation", "Citation"
+    "-- Select Incentive Type --", "Publication", "Presentation", "Citation"
   ]
 
   // Get the current time
@@ -73,22 +73,29 @@ export default function NewVisitorForm({
       <p>Please fill out the form to register as a new visitor.</p>
 
       <form onSubmit={handleSubmitAPI}>
-        <div className="input-grp">
-          <label htmlFor="name">
-            Name <RequiredTag />
-          </label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            placeholder="Write your full name here"
-            autoFocus
-            autoComplete="off"
-            value={formdata.name}
-            onChange={(e) =>
-              setFormdata((old) => ({ ...old, name: e.target.value }))
-            }
-          />
+        <div className="inline-input-grp">
+
+          <div className="input-grp">
+            <label htmlFor="name">
+              Name <RequiredTag />
+            </label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              placeholder="Write your full name here"
+              autoFocus
+              autoComplete="off"
+              value={formdata.name}
+              onChange={(e) =>
+                setFormdata((old) => ({ ...old, name: e.target.value }))
+              }
+            />
+          </div>
+          <div className="input-grp">
+            <label htmlFor="affiliation">Affiliation <RequiredTag /></label>
+            <input type="text" name="affiliation" id="affiliation" placeholder="Office you're from..." onChange={e => setFormdata(old => ({ ...old, affiliation: e.target.value }))} />
+          </div>
         </div>
         <div className="input-grp">
           <label htmlFor="purpose">

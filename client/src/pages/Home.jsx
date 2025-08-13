@@ -17,6 +17,7 @@ export default function Home() {
   const [expanded, setExpanded] = useState(false);
   const [formdata, setFormdata] = useState({
     name: "",
+    affiliation: "",
     purpose: "",
     particulars: "",
     in: "",
@@ -108,8 +109,11 @@ export default function Home() {
   const handleSubmitAPI = async (e) => {
     e.preventDefault();
 
+
+
     // if required fields are empty, then don't continue
-    if (formdata.name === "" || formdata.purpose === "" || formdata.particulars === "") {
+    if (formdata.name === "" || formdata.affiliation === "" || formdata.purpose === "" ||
+      ((formdata.purpose !== "Claiming of Documents" && formdata.purpose !== "Consultation") && formdata.particulars === "")) {
       dialogInput.current.showModal()
       setVisibleInputError(true)
       return;
@@ -123,8 +127,9 @@ export default function Home() {
       body: JSON.stringify({
         date: new Date().toLocaleDateString(),
         name: formdata.name || "-- Juan --",
+        affiliation: formdata.affiliation || "--",
         purpose: formdata.purpose || "Consultation",
-        particulars: formdata.particulars || "",
+        particulars: formdata.particulars || "--",
         timeIn: formdata.in || new Date().toLocaleTimeString(), // Default to current time if out is not set
       }),
     })
@@ -134,6 +139,7 @@ export default function Home() {
         dialogReff.current.showModal();
         setFormdata({
           name: "",
+          affiliation: "",
           purpose: "",
           particulars: "",
           in: "",
