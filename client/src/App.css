@@ -5,23 +5,25 @@
   .home-content {
     display: grid;
     grid-template-columns: 45% auto;
+    align-items: center;
   }
 }
 
 #footer {
-  position: fixed;
+  position: relative;
   bottom: 0;
-  width: 100vw;
-  height: 150px;
+  width: 50vw;
+  height: 80px;
   overflow: hidden;
   background-color: transparent;
+  /* background-color: aqua; */
 
   img {
     position: absolute;
-    bottom: 30px;
-    left: -80px;
+    bottom: 0px;
+    left: 0px;
     width: 40%;
-    transform: translate(60px, 150px);
+    transform: translate(0px, 50px);
   }
 }
 
@@ -32,23 +34,24 @@
 .input-grp-btn {
   margin-left: auto;
 
-  button:nth-child(1) {
-    margin-right: 1rem;
-    background-color: var(--sorsu_gray);
-  }
-
-  button:nth-child(2) {
+  button {
     width: 280px;
     background-color: var(--sorsu_red);
   }
+}
+
+.inline-input-grp {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 0.75rem;
 }
 
 .modal {
   background-color: white;
   box-shadow: 0 0 8px 4px rgb(197, 194, 194);
   width: 40%;
-  height: 40%;
-  padding: 1.5rem 2rem;
+  height: fit-content;
+  padding: 4rem 2rem;
   margin: auto;
   border: none;
   border-radius: 6px;
@@ -83,22 +86,13 @@
 }
 
 .hero-container {
-  padding-top: 4rem;
+  /* padding-top: 1rem; */
   width: 100%;
+  height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  .view-time-out-table-btn {
-    width: 100%;
-    padding: 1.125rem;
-    background-color: var(--sorsu_gray);
-    border: none;
-    color: white;
-    font-size: 1rem;
-    font-weight: 600;
-  }
 
   .hero-img-container {
     width: 55%;
@@ -192,13 +186,38 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 2rem 5rem 0 0;
+  padding: 0rem 5rem 0 0;
+
+  .visitor-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-block: 0rem 3rem;
+  }
+
+  .view-time-out-table-btn {
+    /* width: 100%; */
+    padding: 0.85rem;
+    background-color: var(--sorsu_gray);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 300ms ease-in;
+
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 8px 3px rgb(226, 225, 225);
+    }
+  }
 
   .date-time {
     font-size: 1.2em;
     font-weight: 600;
     color: var(--sorsu_gray);
-    margin-block: 2rem 3rem;
     text-align: end;
   }
 
@@ -210,7 +229,8 @@
 
     display: inline-block;
     overflow: hidden;
-    white-space: nowrap; /* Keep text on a single line */
+    white-space: nowrap;
+    /* Keep text on a single line */
     /* border-right: 0.15em solid var(--sorsu_red);
     animation: typing 3.5s steps(30, end), blink-caret 0.75s step-end; */
   }
@@ -223,7 +243,8 @@
 
     display: inline-block;
     overflow: hidden;
-    white-space: nowrap; /* Keep text on a single line */
+    white-space: nowrap;
+    /* Keep text on a single line */
     /* border-right: 0.15em solid var(--sorsu_red);
     animation: typing 3.5s steps(30, end) forwards,
       blink-caret 0.75s step-end infinite;
@@ -258,10 +279,11 @@
       cursor: pointer;
       font-size: 1.125em;
       font-weight: 600;
-      transition: background-color 0.3s ease;
+      transition: 250ms;
 
       &:hover {
-        opacity: 0.8;
+        box-shadow: 0 0 6px #510101;
+        transform: scale(1.02);
       }
     }
 
@@ -285,6 +307,7 @@
   from {
     width: 0;
   }
+
   to {
     width: 100%;
   }
@@ -292,10 +315,12 @@
 
 /* The blinking cursor animation */
 @keyframes blink-caret {
+
   from,
   to {
     border-color: transparent;
   }
+
   50% {
     border-color: var(--sorsu_red);
   }

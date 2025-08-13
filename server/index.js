@@ -20,6 +20,7 @@ const auth = new google.auth.GoogleAuth({
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
+// Retrieves all the visitor that does not have a time out entry
 app.get("/", async (req, res) => {
   // create client instance for auth
   const client = await auth.getClient();
@@ -30,7 +31,7 @@ app.get("/", async (req, res) => {
   const getRows = await googleSheets.spreadsheets.values.get({
     auth,
     spreadsheetId,
-    range: "Visitors!A:F", // specify the range of the sheet on the "Visitors" tab/sheet
+    range: "Visitors!A:G", // specify the range of the sheet on the "Visitors" tab/sheet
   });
 
   const rows = getRows.data.values;
@@ -39,7 +40,7 @@ app.get("/", async (req, res) => {
   const blankRows = [];
   for (let i = 1; i < rows.length; i++) {
     const row = rows[i];
-    const cellValue = row[5]; // Assuming the time out is in the 6th column (index 5)
+    const cellValue = row[6]; // Assuming the time out is in the 7th column (index 6)
 
     // Check if the cell value is blank (undefined or empty string)
     if (!cellValue) {
@@ -56,6 +57,8 @@ app.get("/", async (req, res) => {
   });
 });
 
+
+// Update the time out column of a visitor
 app.put("/timeout", async (req, res) => {
   const { index, timeOut } = req.body;
 
@@ -68,7 +71,7 @@ app.put("/timeout", async (req, res) => {
   await googleSheets.spreadsheets.values.update({
     auth,
     spreadsheetId,
-    range: `Visitors!F${index}`, // added 2 to adjust for the zero index of arrays and for the header row
+    range: `Visitors!G${index}`, // added 2 to adjust for the zero index of arrays and for the header row
     valueInputOption: "USER_ENTERED",
     resource: {
       values: [[timeOut]],
@@ -78,8 +81,10 @@ app.put("/timeout", async (req, res) => {
   res.status(200).send("Visitor timed out successfully!");
 });
 
+
+// Add new entry to the visitor's logbook
 app.post("/", async (req, res) => {
-  const { date, name, purpose, particulars, timeIn, timeOut } = req.body;
+  const { date, name, affiliation, purpose, particulars, timeIn, timeOut } = req.body;
 
   // create client instance for auth
   const client = await auth.getClient();
@@ -90,11 +95,11 @@ app.post("/", async (req, res) => {
   await googleSheets.spreadsheets.values.append({
     auth,
     spreadsheetId,
-    range: "Visitors!A:E",
+    range: "Visitors!A:F",
     valueInputOption: "USER_ENTERED",
     resource: {
       values: [
-        [date, name, purpose, particulars, timeIn, timeOut], // row data
+        [date, name, affiliation, purpose, particulars, timeIn, timeOut], // row data
       ],
     },
   });

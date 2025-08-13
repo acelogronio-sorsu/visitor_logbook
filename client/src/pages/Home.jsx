@@ -8,13 +8,16 @@ import Confetti from "../components/Confetti";
 export default function Home() {
   const dialogReff = useRef(null);
   const dialogReffOut = useRef(null);
+  const dialogInput = useRef(null);
   const [visible, setVisible] = useState(false);
   const [visibleOut, setVisibleOut] = useState(false);
+  const [visibleInputError, setVisibleInputError] = useState(false);
   const [nextRow, setNextRow] = useState();
   const [visitors, setVisitors] = useState([]);
   const [expanded, setExpanded] = useState(false);
   const [formdata, setFormdata] = useState({
     name: "",
+    affiliation: "",
     purpose: "",
     particulars: "",
     in: "",
@@ -63,6 +66,7 @@ export default function Home() {
       .catch((error) => console.error("Error fetching visitors:", error));
   }, []);
 
+  // modal time out for visitor logging in
   useEffect(() => {
     let timer;
     if (visible) {
@@ -75,6 +79,7 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, [visible]);
 
+  // modal time out for Visitor Time out
   useEffect(() => {
     let timer;
     if (visibleOut) {
@@ -84,19 +89,33 @@ export default function Home() {
         setVisibleOut(false);
       }, 4000);
     }
-
-    // This cleanup function will clear the timer if the component unmounts
-    // or if `isVisible` changes before the timer finishes.
     return () => clearTimeout(timer);
   }, [visibleOut]);
+
+  // Modal time out for input error
+  useEffect(() => {
+    let timer;
+    if (visibleInputError) {
+      // Set a timer to hide the modal after 3 seconds (3000ms)
+      timer = setTimeout(() => {
+        dialogInput.current.close();
+        setVisibleInputError(false);
+      }, 2000);
+    }
+    return () => clearTimeout(timer);
+  }, [visibleInputError]);
 
   // handles the submission of a new visitor
   const handleSubmitAPI = async (e) => {
     e.preventDefault();
 
+
+
     // if required fields are empty, then don't continue
-    if (formdata.name === "" || formdata.purpose === "") {
-      alert("Sorry. Fill out the blank first before submitting");
+    if (formdata.name === "" || formdata.affiliation === "" || formdata.purpose === "" ||
+      ((formdata.purpose !== "Claiming of Documents" && formdata.purpose !== "Consultation") && formdata.particulars === "")) {
+      dialogInput.current.showModal()
+      setVisibleInputError(true)
       return;
     }
 
@@ -108,8 +127,9 @@ export default function Home() {
       body: JSON.stringify({
         date: new Date().toLocaleDateString(),
         name: formdata.name || "-- Juan --",
+        affiliation: formdata.affiliation || "--",
         purpose: formdata.purpose || "Consultation",
-        particulars: formdata.particulars || "",
+        particulars: formdata.particulars || "--",
         timeIn: formdata.in || new Date().toLocaleTimeString(), // Default to current time if out is not set
       }),
     })
@@ -119,6 +139,7 @@ export default function Home() {
         dialogReff.current.showModal();
         setFormdata({
           name: "",
+          affiliation: "",
           purpose: "",
           particulars: "",
           in: "",
@@ -127,7 +148,7 @@ export default function Home() {
         setVisitors((old) => [...old, [nextRow + 1, formdata.name]]); // add new visitor to the visitors states
       })
       .catch((error) => console.log(error))
-      .finally(() => {});
+      .finally(() => { });
   };
 
   return (
@@ -149,6 +170,14 @@ export default function Home() {
             Please come again
           </p>
         </dialog>
+
+        <dialog className="modal" ref={dialogInput}>
+          <p className="modal-icon">⚠️</p>
+          <p className="modal-message">
+            Please fill out the form first <br />
+            before submitting
+          </p>
+        </dialog>
         <div className="left hero-container">
           {!expanded ? (
             <Hero />
@@ -168,7 +197,7 @@ export default function Home() {
             setExpanded={setExpanded}
           />
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </div>
   );
