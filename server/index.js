@@ -24,6 +24,11 @@ app.use(
 const spreadsheetId = process.env.SPREADSHEET_ID;
 const auth = new google.auth.GoogleAuth({
   keyFile: credentials,
+  projectId: credentials.projectId,
+  credentials: {
+    client_email: credentials.client_email,
+    private_key: credentials.private_key
+  },
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
