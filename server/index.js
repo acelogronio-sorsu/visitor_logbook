@@ -3,7 +3,11 @@ const { google } = require("googleapis");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
+
 const app = express();
+
+const credentialString = process.env.LOGBOOK_VISITOR_API_KEY;
+const credentials = JSON.parse(credentialString);
 
 // allow api calls from the frontend
 // change origin url for the actual address if deployed online
@@ -17,7 +21,7 @@ app.use(
 
 const spreadsheetId = "1-ADBNQ-HMp69dTNLHvuzSapdGPp119Nua4dsdyJYq80";
 const auth = new google.auth.GoogleAuth({
-  keyFile: "credentials.json",
+  keyFile: credentials,
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
