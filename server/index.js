@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const app = express();
 
 // allow api calls from the frontend
+// change origin url for the actual address if deployed online
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -14,7 +15,7 @@ app.use(
   bodyParser.urlencoded({ extended: true })
 );
 
-const spreadsheetId = "1TEHVzNxU6MvTDdnxm-3zNJLRiUqr52POS5__9crxz0M";
+const spreadsheetId = "1-ADBNQ-HMp69dTNLHvuzSapdGPp119Nua4dsdyJYq80";
 const auth = new google.auth.GoogleAuth({
   keyFile: "credentials.json",
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
@@ -84,7 +85,7 @@ app.put("/timeout", async (req, res) => {
 
 // Add new entry to the visitor's logbook
 app.post("/", async (req, res) => {
-  const { date, name, affiliation, purpose, particulars, timeIn, timeOut } = req.body;
+  const { date, name, affiliation, purpose, particulars, timeIn } = req.body;
 
   // create client instance for auth
   const client = await auth.getClient();
@@ -99,7 +100,7 @@ app.post("/", async (req, res) => {
     valueInputOption: "USER_ENTERED",
     resource: {
       values: [
-        [date, name, affiliation, purpose, particulars, timeIn, timeOut], // row data
+        [date, name, affiliation, purpose, particulars, timeIn], // row data
       ],
     },
   });

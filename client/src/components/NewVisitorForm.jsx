@@ -94,7 +94,7 @@ export default function NewVisitorForm({
           </div>
           <div className="input-grp">
             <label htmlFor="affiliation">Affiliation <RequiredTag /></label>
-            <input type="text" name="affiliation" id="affiliation" placeholder="Office you're from..." onChange={e => setFormdata(old => ({ ...old, affiliation: e.target.value }))} />
+            <input type="text" name="affiliation" id="affiliation" placeholder="College/Campus/Agency..." value={formdata.affiliation} onChange={e => setFormdata(old => ({ ...old, affiliation: e.target.value }))} />
           </div>
         </div>
         <div className="input-grp">
@@ -104,6 +104,7 @@ export default function NewVisitorForm({
           <select
             name="purpose"
             id="purpose"
+            value={formdata.purpose}
             onChange={(e) => {
               setFormdata((old) => ({ ...old, purpose: e.target.value, particulars: "" }));
             }}
@@ -148,6 +149,7 @@ export default function NewVisitorForm({
             <select
               name="researchDocument"
               id="researchDocument"
+              value={formdata.particulars}
               onChange={(e) =>
                 setFormdata((old) => ({
                   ...old,
