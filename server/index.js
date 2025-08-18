@@ -2,8 +2,9 @@ const express = require("express");
 const { google } = require("googleapis");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const dotenv = require("dotenv")
 
-
+dotenv.config()
 const app = express();
 
 const credentialString = process.env.LOGBOOK_VISITOR_API_KEY;
@@ -16,10 +17,11 @@ app.use(
     origin: "http://localhost:5173",
   }),
   bodyParser.json(),
-  bodyParser.urlencoded({ extended: true })
+  bodyParser.urlencoded({ extended: true }),
+  express.json()
 );
 
-const spreadsheetId = "1-ADBNQ-HMp69dTNLHvuzSapdGPp119Nua4dsdyJYq80";
+const spreadsheetId = process.env.SPREADSHEET_ID;
 const auth = new google.auth.GoogleAuth({
   keyFile: credentials,
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],

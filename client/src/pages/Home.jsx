@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Footer from "../components/Footer";
 import Confetti from "../components/Confetti";
 
+
 export default function Home() {
   const dialogReff = useRef(null);
   const dialogReffOut = useRef(null);
@@ -31,7 +32,7 @@ export default function Home() {
   const handleTimeOut = useCallback(async (index) => {
     const timeOut = new Date().toLocaleTimeString();
 
-    await fetch("http://localhost:1337/timeout", {
+    await fetch(`${import.meta.env.VITE_SERVER_URL}/timeout`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -52,7 +53,7 @@ export default function Home() {
 
   // fetch visitors with blank time out
   useEffect(() => {
-    fetch("http://localhost:1337", {
+    fetch(`${import.meta.env.VITE_SERVER_URL}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -119,7 +120,7 @@ export default function Home() {
       return;
     }
 
-    await fetch("http://localhost:1337", {
+    await fetch(`${import.meta.env.VITE_SERVER_URL}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
