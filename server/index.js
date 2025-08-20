@@ -14,7 +14,7 @@ const credentials = JSON.parse(credentialString);
 // change origin url for the actual address if deployed online
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://visitor-logbook-unn4.vercel.app", "https://visitor-logbook.vercel.app", "https://visitor-logbook-zfy9.vercel.app", "https://visitor-logbook-q69t.vercel.app", "https://visitor-logbook-b88n.vercel.app"],
+    origin: ["https://ord-visitor-logbook.vercel.app/", "http://localhost:5173"],
   }),
   bodyParser.json(),
   bodyParser.urlencoded({ extended: true }),
@@ -23,11 +23,21 @@ app.use(
 
 const spreadsheetId = process.env.SPREADSHEET_ID;
 const auth = new google.auth.GoogleAuth({
-  keyFile: credentials,
+  // keyFile: credentials,
   projectId: credentials.projectId,
   credentials: {
+    type: credentials.type,
+    project_id: credentials.project_id,
+    project_key_id: credentials.project_key_id,
+    private_key: credentials.private_key,
     client_email: credentials.client_email,
-    private_key: credentials.private_key
+    client_id: credentials.client_id,
+    auth_uri: credentials.auth_uri,
+    token_uri: credentials.token_uri,
+    auth_provider_x509_cert_url: credentials.auth_provider_x509_cert_url,
+    client_x509_cert_url: credentials.client_x509_cert_url,
+    universe_domain: credentials.universe_domain
+
   },
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });

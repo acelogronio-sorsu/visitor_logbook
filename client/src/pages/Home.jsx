@@ -36,7 +36,7 @@ export default function Home() {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "https://visitor-logbook-894d.vercel.app/"
+        "Access-Control-Allow-Origin": "*"
       },
       body: JSON.stringify({ index, timeOut }),
     })
@@ -58,7 +58,7 @@ export default function Home() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "https://visitor-logbook-894d.vercel.app/"
+        "Access-Control-Allow-Origin": "*"
 
       },
     })
